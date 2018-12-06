@@ -1,7 +1,7 @@
 package southxchange
 
 type Transaction struct {
-	Date          string
+	Date          Timestamp
 	Type          string
 	Amount        float64
 	TotalBalance  float64
