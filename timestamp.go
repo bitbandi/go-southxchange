@@ -29,3 +29,11 @@ func (t *Timestamp) UnmarshalJSON(body []byte) (err error) {
 func (t Timestamp) MarshalJSON() ([]byte, error) {
 	return []byte(strconv.Quote(time.Time(t).Format("2006-01-02T15:04:05.999999999"))), nil
 }
+
+func (t Timestamp) Diff(u Timestamp) time.Duration {
+	diff := time.Time(t).Sub(time.Time(u))
+	if diff.Nanoseconds() >= 0 {
+		return diff
+	}
+	return -diff;
+}
