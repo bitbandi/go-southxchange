@@ -182,8 +182,7 @@ func (c *client) do(method string, ressource string, payload map[string]string, 
 		return response, err
 	}
 	if resp.StatusCode != 200 && resp.StatusCode != 401 {
-		//if resp.StatusCode != 200 {
-		err = errors.New(resp.Status)
+		err = errors.New(resp.Status + ": "+strings.Trim(string(response), "\""))
 	}
 	return response, err
 }
