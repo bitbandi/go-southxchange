@@ -97,7 +97,6 @@ func (o *SouthXchange) GetBalances() (balances []Balance, err error) {
 	return
 }
 
-/*
 // GetDepositAddress is sed to generate or retrieve an address for a specific currency.
 // currency a string literal for the currency (ie. BTC)
 func (b *SouthXchange) GetDepositAddress(currency string) (address string, err error) {
@@ -108,8 +107,7 @@ func (b *SouthXchange) GetDepositAddress(currency string) (address string, err e
 	address = string(r)
 	return
 }
-*/
-/*
+
 // Withdraw is used to withdraw funds from your account.
 // address string the address where to send the funds.
 // currency string literal for the currency (ie. BTC)
@@ -126,7 +124,6 @@ func (o *SouthXchange) Withdraw(address, currency string, quantity float64) (wit
 	}
 	return
 }
-*/
 
 // GetTransactions is used to retrieve your transaction history
 func (b *SouthXchange) GetTransactions(start uint64, limit uint32, sort string, desc bool) (transactions []Transaction, err error) {
