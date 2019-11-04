@@ -116,7 +116,7 @@ func (b *SouthXchange) GetDepositAddress(currency string) (address string, err e
 // currency string literal for the currency (ie. BTC)
 // quantity float the quantity of coins to withdraw
 // fee float the quantity of coins to withdraw
-func (o *SouthXchange) Withdraw(address, currency string, quantity float64) (withdrawId string, err error) {
+func (o *SouthXchange) Withdraw(address string, currency string, quantity float64) (withdraw WithdrawalInfo, err error) {
 	r, err := o.client.do("POST", "withdraw", map[string]string{
 		"currency": currency,
 		"address":  address,
@@ -125,9 +125,8 @@ func (o *SouthXchange) Withdraw(address, currency string, quantity float64) (wit
 	if err != nil {
 		return
 	}
-
-	fmt.Println(r)
-	return
+	err = json.Unmarshal(r, &withdraw)
+	return withdraw, err
 }
 
 // GetTransactions is used to retrieve your transaction history
