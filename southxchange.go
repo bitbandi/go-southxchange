@@ -4,9 +4,11 @@ package southxchange
 import (
 	"encoding/json"
 	"errors"
+
 	//"fmt"
 	"net/http"
 	"strconv"
+
 	//"strings"
 	"time"
 	//"strings"
@@ -85,6 +87,7 @@ func (b *SouthXchange) GetOpenOrders() (openOrders []Order, err error) {
 	err = json.Unmarshal(r, &openOrders)
 	return
 }
+
 // Account
 
 // GetBalances is used to retrieve all balances from your account
@@ -100,7 +103,7 @@ func (o *SouthXchange) GetBalances() (balances []Balance, err error) {
 // GetDepositAddress is sed to generate or retrieve an address for a specific currency.
 // currency a string literal for the currency (ie. BTC)
 func (b *SouthXchange) GetDepositAddress(currency string) (address string, err error) {
-	r, err := b.client.do("POST", "generatenewaddress", map[string]string{"currency":currency}, true)
+	r, err := b.client.do("POST", "generatenewaddress", map[string]string{"currency": currency}, true)
 	if err != nil {
 		return
 	}
@@ -116,12 +119,14 @@ func (b *SouthXchange) GetDepositAddress(currency string) (address string, err e
 func (o *SouthXchange) Withdraw(address, currency string, quantity float64) (withdrawId string, err error) {
 	r, err := o.client.do("POST", "withdraw", map[string]string{
 		"currency": currency,
-		"address": address,
-		"amount":  strconv.FormatFloat(quantity, 'f', -1, 64),
+		"address":  address,
+		"amount":   strconv.FormatFloat(quantity, 'f', -1, 64),
 	}, true)
 	if err != nil {
 		return
 	}
+
+	fmt.Println(r)
 	return
 }
 
