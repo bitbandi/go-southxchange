@@ -11,7 +11,6 @@ import (
 	"log"
 	"net/http"
 	"net/http/httputil"
-	"strconv"
 	"strings"
 	"time"
 )
@@ -111,8 +110,10 @@ func (c *client) doTimeoutRequest(timer *time.Timer, req *http.Request) (*http.R
 	}
 }
 
+type PayloadData map[string]interface{}
+
 // do prepare and process HTTP request to SouthXchange API
-func (c *client) do(method string, ressource string, payload map[string]string, authNeeded bool) (response []byte, err error) {
+func (c *client) do(method string, ressource string, payload PayloadData, authNeeded bool) (response []byte, err error) {
 	connectTimer := time.NewTimer(c.httpTimeout)
 
 	var rawurl string
@@ -122,12 +123,12 @@ func (c *client) do(method string, ressource string, payload map[string]string, 
 		rawurl = fmt.Sprintf("%s/%s", API_BASE, ressource)
 	}
 	if payload == nil {
-		payload = make(map[string]string)
+		payload = make(PayloadData)
 	}
 	formData := []byte("")
 	if method == "POST" {
 		payload["key"] = c.apiKey
-		payload["nonce"] = strconv.FormatInt(time.Now().UnixNano(), 10)
+		payload["nonce"] = time.Now().UnixNano()
 		formData, err = json.Marshal(payload)
 		if err != nil {
 			return nil, err

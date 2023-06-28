@@ -103,7 +103,7 @@ func (o *SouthXchange) GetBalances() (balances []Balance, err error) {
 // GetDepositAddress is sed to generate or retrieve an address for a specific currency.
 // currency a string literal for the currency (ie. BTC)
 func (b *SouthXchange) GetDepositAddress(currency string) (address string, err error) {
-	r, err := b.client.do("POST", "generatenewaddress", map[string]string{"currency": currency}, true)
+	r, err := b.client.do("POST", "generatenewaddress", PayloadData{"currency": currency}, true)
 	if err != nil {
 		return
 	}
@@ -117,10 +117,10 @@ func (b *SouthXchange) GetDepositAddress(currency string) (address string, err e
 // quantity float the quantity of coins to withdraw
 // fee float the quantity of coins to withdraw
 func (o *SouthXchange) Withdraw(address string, currency string, quantity float64) (withdraw WithdrawalInfo, err error) {
-	r, err := o.client.do("POST", "withdraw", map[string]string{
+	r, err := o.client.do("POST", "withdraw", PayloadData{
 		"currency": currency,
 		"address":  address,
-		"amount":   strconv.FormatFloat(quantity, 'f', -1, 64),
+		"amount":   quantity,
 	}, true)
 	if err != nil {
 		return
@@ -131,7 +131,7 @@ func (o *SouthXchange) Withdraw(address string, currency string, quantity float6
 
 // GetTransactions is used to retrieve your transaction history
 func (b *SouthXchange) GetTransactions(start uint64, limit uint32, sort string, desc bool) (transactions []Transaction, err error) {
-	payload := make(map[string]string)
+	payload := make(PayloadData)
 	if start > 0 {
 		payload["PageIndex"] = strconv.FormatUint(uint64(start), 10)
 	}
